@@ -1,0 +1,29 @@
+
+<div class="authform">
+<h3>Find A Deal</h3>
+<p>Answer these quick questions, and we'll start looking for a deal for you immediately. Real people, not robots or magic, are finding you the best deals, so please give us a couple hours* to respond.</p>
+	<%= form_for(@deal) do |f| %>
+	
+	<div class="form-group">
+		<%= f.label :short_description, "What do you want a deal on? (60 inch TV, Trip to Hawaii, etc.)" %>
+		<%= f.text_field :short_description, :autofocus => true, class: 'form-control' %>
+	</div>
+	<div class="form-group">
+		<%= f.label :budget, "How much are you willing to spend? (Or leave this blank if the sky’s the limit.)" %>
+		<%= f.text_field :budget, class: 'form-control' %>
+	</div>
+	<div class="form-group">
+		<%= f.label :needed_by, "When do you need it? (Be as specific as you need to be." %>
+		<%= f.text_field :needed_by, class: 'form-control' %>
+	</div>
+	<div class="form-group">
+		<%= f.label :more_details, "Please share any other details that will help us help you. (Brands/companies you prefer, links to other websites, etc.)" %>
+		<%= f.text_area :more_details, rows: 6, class: 'form-control' %>
+	</div>
+	<%= f.submit 'Find me a deal!', :class => 'button right' %>
+	<% end %>
+	<p>* Disclaimer: Okay, it might take us up to a day to get back to you. If you need info on a deal sooner than that, we suggest you <%= link_to "research it yourself", "http://www.google.com", target: "_blank" %>.</p>
+</div>
+
+
+

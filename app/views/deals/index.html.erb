@@ -1,0 +1,45 @@
+<h3>My Deals</h3>
+
+<% if @deals.count > 0 %>
+	<p>Click on any of your deals below to see more details.</p>
+	<div class="panel-group" id="accordion"><% @deals.each do |deal| %>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= deal.id %>"><h4 class="panel-title">
+					<%= deal.short_description %> &raquo;
+				</h4></a>
+			</div>
+			<div id="collapse<%= deal.id %>" class="panel-collapse collapse">
+				<div class="panel-body">
+					<p>Deal Details</p>
+					<ul class="list-group">
+						<li class="list-group-item">Your stated budget: <%= deal.budget %></li>
+						<li class="list-group-item">Your stated deadline: <%= deal.needed_by %></li>
+						<li class="list-group-item">Extra details: <%= deal.more_details %></li>
+					</ul>
+					<p>Correspondence</p>
+					<% if @messages.count > 0 %>
+					<ul class="list-group"><% @messages[deal.id].each do |message| %>
+						<li class="list-group-item">
+							<% if message.from = current_user.id %>You said:
+							<% else %>Dealasaurus said:<% end %>
+							<em>"<%= message.message %>"</em>
+						
+						</li><% end %>
+					</ul>
+					<% else %>
+					Oops, there is none yet. We'll write back once we've found you some more info, or you can say something to us, too.
+					<% end %>
+				</div>
+				<!--<p><%#= link_to 'Edit', edit_deal_path(deal) %> | <%#= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
+			</div>
+		</div>
+	<% end %></div>
+	<p><strong>Keep in mind:</strong> There's no limit to how many deals we can help you find. <%= link_to 'Get started on another deal!', get_started_path %></p>
+
+<% else %>
+
+	<p>You haven't had us start looking for any deals for you.</p>
+	<p><%= link_to "Get started now!", get_started_path, class: "btn btn-lg btn-primary", role: "button" %></p>
+
+<% end %>

@@ -1,0 +1,24 @@
+# Remove the "-template" from this file name.
+
+
+
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/development
+  username: user
+  password: pass
+  host: localhost
+  encoding: UTF8
+
+test:
+  <<: *default
+  database: db/test
+
+production:
+  <<: *default
+  database: db/production

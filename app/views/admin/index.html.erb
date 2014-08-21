@@ -1,0 +1,44 @@
+<%#= devise_error_messages! %>
+<h3>All Deals</h3>
+
+<% if @deals.count > 0 %>
+	<div class="panel-group" id="accordion"><% @deals.each do |deal| %>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= deal.id %>"><h4 class="panel-title">
+					<%= deal.short_description %> &raquo;
+				</h4></a>
+			</div>
+			<div id="collapse<%= deal.id %>" class="panel-collapse collapse">
+				<div class="panel-body">
+					<p>Deal Details</p>
+					<p>Belongs to <%= @users[deal.user_id].first_name %> <%= @users[deal.user_id].last_name %>.</p>
+					<ul class="list-group">
+						<li class="list-group-item">Budget: <%= deal.budget %></li>
+						<li class="list-group-item">Deadline: <%= deal.needed_by %></li>
+						<li class="list-group-item">Extra details: <%= deal.more_details %></li>
+					</ul>
+					<p>Correspondence</p>
+					<% if @messages.count > 0 %>
+					<ul class="list-group"><% @messages[deal.id].each do |message| %>
+						<li class="list-group-item">
+							<% if message.from = current_user.id %>You said:
+							<% else %>Dealasaurus said:<% end %>
+							<em>"<%= message.message %>"</em>
+
+						</li><% end %>
+					</ul>
+					<% end %>
+					<div class="authform">
+					  <%= form_for(@newmessage) do |f| %>
+						<%= f.label :message %>
+						<%= f.text_field :message, class: 'form-control' %>
+						<%= f.submit 'Post this message', :class => 'button right' %>
+					  <% end %>
+					</div>
+				</div>
+				<p><%#= link_to 'Edit', edit_deal_path(deal) %> | <%#= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+			</div>
+		</div>
+	<% end %></div>
+<% end %>
