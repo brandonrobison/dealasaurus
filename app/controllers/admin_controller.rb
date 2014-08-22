@@ -8,8 +8,8 @@ class AdminController < ApplicationController
 			@users[u.id] = u
 		end
 		@deals = Deal.all.sort_by { |k,v| v }.reverse
+		@messages = Hash.new
 		if @deals.count > 0
-			@messages = Hash.new
 			@deals.each do |deal|
 				if !Message.where(deal_id: deal.id).empty?
 					@messages[deal.id] = Message.where(deal_id: deal.id)

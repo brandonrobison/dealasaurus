@@ -19,26 +19,33 @@
 						<li class="list-group-item">Extra details: <%= deal.more_details %></li>
 					</ul>
 					<p>Correspondence</p>
-					<% if @messages.count > 0 %>
-					<ul class="list-group"><% @messages[deal.id].each do |message| %>
+					<% #if @messages[deal.id].count > 0 %>
+					<ul class="list-group"><% if !@messages[deal.id].nil?
+						@messages[deal.id].each do |message| %>
 						<li class="list-group-item">
-							<% if message.from = current_user.id %>You said:
-							<% else %>Dealasaurus said:<% end %>
+							<% if User.find(message.user_id).try(:admin?) %>Dealasaurus said:
+							<% else %><%= @users[deal.user_id].first_name %><% end %>
 							<em>"<%= message.message %>"</em>
-
-						</li><% end %>
+						</li><% end
+						else %>
+						No messages yet.
+						<% end %>
 					</ul>
-					<% end %>
+					<% #end %>
 					<div class="authform">
-					  <%= form_for(@newmessage) do |f| %>
+					  <%= form_for [@post, Message.new] do |f| %>
 						<%= f.label :message %>
 						<%= f.text_field :message, class: 'form-control' %>
+						<%= f.hidden_field :deal_id, :value => deal.id %>
 						<%= f.submit 'Post this message', :class => 'button right' %>
 					  <% end %>
 					</div>
 				</div>
-				<p><%#= link_to 'Edit', edit_deal_path(deal) %> | <%#= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+				<!--<p><%#= link_to 'Edit', edit_deal_path(deal) %> | <%#= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
 			</div>
 		</div>
 	<% end %></div>
 <% end %>
+
+
+

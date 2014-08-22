@@ -19,16 +19,16 @@
 					</ul>
 					<p>Correspondence</p>
 					<% if @messages.count > 0 %>
-					<ul class="list-group"><% @messages[deal.id].each do |message| %>
+					<ul class="list-group"><% if !@messages[deal.id].nil? %><% @messages[deal.id].each do |message| %>
 						<li class="list-group-item">
-							<% if message.from = current_user.id %>You said:
-							<% else %>Dealasaurus said:<% end %>
+							<% if User.find(message.user_id).try(:admin?) %>Dealasaurus said:
+							<% else %><%= @users[deal.user_id].first_name %><% end %>
 							<em>"<%= message.message %>"</em>
-						
-						</li><% end %>
+						</li><% end
+						end %>
 					</ul>
 					<% else %>
-					Oops, there is none yet. We'll write back once we've found you some more info, or you can say something to us, too.
+					Oops, there are no messages yet. We'll write back once we've found you some more info, or you can say something to us, too.
 					<% end %>
 				</div>
 				<!--<p><%#= link_to 'Edit', edit_deal_path(deal) %> | <%#= link_to 'Destroy', deal, method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
